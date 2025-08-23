@@ -1,0 +1,134 @@
+body{
+
+margin: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto; 
+  height: 100vh;
+}
+.header{
+    position:-webkit-sticky;
+    background:#93b874;
+
+}
+.header > img{
+height:35px;
+display: grid;
+gap:20px;
+
+padding:20px 40px;
+position: relative;
+left: 30px;
+}
+.header {
+ display: flex; 
+ justify-content: space-between;              
+ align-items: center;      
+ padding: 10px 20px;
+
+}
+.header .navbar {
+ display: flex;
+ gap:20px;
+ 
+}
+.header .navbar >a{
+ text-align: right;
+ text-decoration: none;
+ color: white;
+ font-size:25px;
+
+}
+.header .navbar >a:hover{
+   color: #44454f;
+}
+main{
+    display: flex;
+    flex: 1;
+}
+.sidebar{
+    background-color:#efeddf;
+    width: 30%;
+    
+    
+}
+.sidebar nav >a{
+    display: grid;
+    gap:80px;
+    text-align: center;
+   justify-content: left;
+    color: #44454f;
+    font-size: 20px;
+    text-decoration: none;
+    padding: 60px 60px;
+    
+}
+.sidebar nav >a:hover{
+   color:#d8c30a;
+}
+.content{
+    background-color:white;
+    flex:1;
+}
+.content h2 {
+    padding:20px;
+    color:#44454f;
+
+}
+.content p{
+    font-size: 23px;
+    padding: 20px;
+    text-indent: 2em;
+}
+.content table,th,td {
+    
+    border: 3px solid black;
+    
+}
+.content th,td{
+    border-collapse: collapse;
+    font-size: 23px;
+    padding: 20px;
+    text-indent: 2em;
+    
+}
+.content table{
+    
+    margin-left: 2em;
+}
+.content tr:hover{
+    background-color: rgb(177, 214, 177);
+    color: aliceblue;
+}
+.skill ,.exp, .hobby{
+   
+    font-size: 23px;
+    margin-left: 2em;   
+    list-style-position: inside;
+}
+
+
+i{
+  font-size: 23px; 
+  padding: 25px; 
+}
+h3{
+   font-size: 23px; 
+   padding: 25px;  
+} 
+
+footer {
+   background-color:rgba(27, 26, 26, 0.959);
+   padding: 10px 20px;
+   display: flex;
+   justify-content: center; 
+   align-items: center;
+   color: white;
+   font-size: 18px;
+}
+footer >img {
+    margin-left: 15px;
+    
+}
+
+
+
