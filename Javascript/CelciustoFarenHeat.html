@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CelciustoFarenheat</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+<body>
+   <style>
+   
+    body {
+      background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+      min-height: 100vh;
+    }
+
+    .card {
+      border: none;
+      border-radius: 1rem;
+      background: #fff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+      
+    }
+    .card:hover {
+      
+      box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    }
+
+    
+    .form-control:focus {
+      box-shadow: 0 0 12px rgba(13, 110, 253, 0.5);
+      border-color: #0d6efd;
+    }
+
+   
+    button {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    button:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+
+   
+  </style>
+</head>
+<body>
+
+  
+  <div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card" style="width: 25rem;">
+      <div class="card-body text-center">
+        
+    
+        <h3 class="card-title text-primary mb-4">
+          <i class="bi bi-thermometer-half"></i> Celsius → Fahrenheit
+        </h3>
+
+        
+        <div class="form-floating mb-3 w-75 mx-auto">
+          <input type="number" id="celsius" class="form-control" placeholder="0">
+          <label for="celsius">Enter Celsius</label>
+        </div>
+
+        <div class="d-flex justify-content-center gap-2">
+          <button id="btnConvert" class="btn btn-primary">Convert</button>
+          <button id="btnReset" class="btn btn-secondary">Reset</button>
+        </div>
+
+        
+        <div id="result" class="alert d-none mt-4 fw-bold text-center"></div>
+      </div>
+    </div>
+  </div>
+
+  
+  <script>
+    const inputC = document.getElementById("celsius");
+    const btnConvert = document.getElementById("btnConvert");
+    const btnReset = document.getElementById("btnReset");
+    const result = document.getElementById("result");
+
+
+    btnConvert.addEventListener("click", () => {
+      const c = parseFloat(inputC.value);
+
+      if (isNaN(c)) {
+        result.textContent = "⚠️ Please enter a valid number!";
+        result.className = "alert alert-danger mt-4 fade-in";
+        result.classList.remove("d-none");
+        return;
+      }
+
+      const f = (c * 9/5 + 32).toFixed(2);
+      result.textContent = `${c}°C = ${f}°F 🌡️`;
+      result.className = "alert alert-success mt-4 fade-in";
+      result.classList.remove("d-none");
+    });
+
+   
+    btnReset.addEventListener("click", () => {
+      inputC.value = "";
+      inputC.focus();
+      result.classList.add("d-none");
+    });
+  </script>
+</body>
+</html>
