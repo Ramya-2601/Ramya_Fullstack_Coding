@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Login — Email + Password Validation</title>
+
+  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+  <style>
+    html,body { height:100%; }
+    body{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      margin:0;
+      background: linear-gradient(135deg,#8e2de2 0%, #4a00e0 50%, #00b4db 100%);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    }
+    .card-login{
+      width:100%;
+      max-width:40%;
+      border-radius:16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      padding: 24px;
+      background: white;
+    }
+    .toggle-btn {
+      cursor: pointer;
+      user-select: none;
+      border: none;
+      background: none;
+      padding: 0 8px;
+      font-weight: 600;
+    }
+    .small-error { font-size:0.85rem; color:#dc3545; margin-top:6px; display:none; }
+    #result { margin-top: 18px; }
+  </style>
+</head>
+<body>
+
+  <div class="card-login">
+    <h4 class="mb-3 text-center">Login</h4>
+
+    <form id="loginForm" novalidate>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email (username)</label>
+        <input id="email" type="email" class="form-control" placeholder="you@example.com" autocomplete="username">
+        <div id="emailError" class="small-error">Email error</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+          <input id="password" type="password" class="form-control" placeholder="Enter password" autocomplete="current-password">
+          <button id="togglePwd" type="button" class="btn btn-secondary">Show</button>
+        </div>
+        <div id="passwordError" class="small-error">Password error</div>
+        <div class="form-text">Password must be at least 6 characters and include at least one letter and one number.</div>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button type="submit" class="btn btn-primary flex-grow-1">Login</button>
+        <button id="resetBtn" type="button" class="btn btn-warning">Reset</button>
+      </div>
+    </form>
+
+    <div id="result"></div>
+  </div>
+
+  <script>
+    
+    const form = document.getElementById('loginForm');
+    const emailEl = document.getElementById('email');
+    const passEl = document.getElementById('password');
+    const emailError = document.getElementById('emailError');
+    const passError = document.getElementById('passwordError');
+    const result = document.getElementById('result');
+    const toggleBtn = document.getElementById('togglePwd');
+    const resetBtn = document.getElementById('resetBtn');
+
+    // Regex definitions
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Password rule: at least 6 chars AND at least one letter and one digit.
+    // Using .{6,} allows special characters too (so common passwords with symbols won't be rejected).
+    const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d).{6,}$/;
+
+  
+    function showError(inputEl, errorEl, message) {
+      inputEl.classList.add('is-invalid');
+      errorEl.textContent = message;
+      errorEl.style.display = 'block';
+    }
+    function clearError(inputEl, errorEl) {
+      inputEl.classList.remove('is-invalid');
+      errorEl.textContent = '';
+      errorEl.style.display = 'none';
+    }
+
+    // Live validation
+    emailEl.addEventListener('input', () => validateEmail());
+    passEl.addEventListener('input', () => validatePassword());
+
+    function validateEmail() {
+      const v = emailEl.value.trim();
+      if (!v) {
+        showError(emailEl, emailError, 'Email is required.');
+        return false;
+      }
+      if (!emailPattern.test(v)) {
+        showError(emailEl, emailError, 'Please enter a valid email address.');
+        return false;
+      }
+      clearError(emailEl, emailError);
+      return true;
+    }
+
+    function validatePassword() {
+      const v = passEl.value;
+      if (!v) {
+        showError(passEl, passError, 'Password is required.');
+        return false;
+      }
+      if (!passwordPattern.test(v)) {
+        showError(passEl, passError, 'Password must be at least 6 chars and include a letter and a number.');
+        return false;
+      }
+      clearError(passEl, passError);
+      return true;
+    }
+
+    
+    form.addEventListener('submit', function (e) {
+      e.preventDefault(); 
+      const emailOk = validateEmail();
+      const passOk = validatePassword();
+
+      if (!emailOk) { emailEl.focus(); return; }
+      if (!passOk) { passEl.focus(); return; }
+
+      
+      result.innerHTML = `
+        <div class="alert alert-success" role="alert">
+          <strong>Success!</strong>
+          <div class="mt-2"><strong>Email:</strong> ${escapeHtml(emailEl.value)}</div>
+          <div><strong>Password:</strong> ${escapeHtml(passEl.value)}</div>
+        </div>
+      `;
+    });
+
+    
+    resetBtn.addEventListener('click', resetForm);
+    function resetForm() {
+      form.reset();
+      clearError(emailEl, emailError);
+      clearError(passEl, passError);
+      result.innerHTML = '';
+      passEl.type = 'password';
+      toggleBtn.textContent = 'Show';
+    }
+
+    
+    toggleBtn.addEventListener('click', () => {
+      if (passEl.type === 'password') {
+        passEl.type = 'text';
+        toggleBtn.textContent = 'Hide';
+      } else {
+        passEl.type = 'password';
+        toggleBtn.textContent = 'Show';
+      }
+    });
+
+    
+    function escapeHtml(str) {
+      return String(str)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#39;');
+    }
+  </script>
+
+</body>
+</html>
